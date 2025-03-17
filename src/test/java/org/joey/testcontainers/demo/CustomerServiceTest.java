@@ -41,8 +41,9 @@ class CustomerServiceTest {
   void shouldGetCustomers() {
     customerService.createCustomer(new Customer(1L, "George"));
     customerService.createCustomer(new Customer(2L, "John"));
+    customerService.createCustomer(new Customer(3L, "Joe"));
 
     List<Customer> customers = customerService.getAllCustomers();
-    assertEquals(2, customers.size());
+    assertEquals(3, customers.size());
   }
 }
