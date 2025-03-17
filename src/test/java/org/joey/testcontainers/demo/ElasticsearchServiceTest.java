@@ -92,7 +92,7 @@ class ElasticsearchServiceTest {
         Response response = client.performRequest(getRequest);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusLine().getStatusCode()); // Zorg ervoor dat het document echt bestaat
+        assertEquals(200, response.getStatusLine().getStatusCode());
     }
 
 
@@ -102,7 +102,7 @@ class ElasticsearchServiceTest {
         client.performRequest(createRequest);
 
         try {
-            Thread.sleep(500); // 500 ms delay
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
