@@ -4,71 +4,50 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CustomerService {
+public class OrderService {
 
     private final DBConnectionProvider connectionProvider;
 
-    public CustomerService(DBConnectionProvider dbConnectionProvider) {
+    public OrderService(DBConnectionProvider dbConnectionProvider) {
         this.connectionProvider = dbConnectionProvider;
-        createCustomersTableIfNotExists();
+        createOrdersTableIfNotExists();
     }
 
     public DBConnectionProvider getConnectionProvider() {
         return connectionProvider;
     }
 
-    public void createCustomer(Customer customer) {
+    public void createOrder(Order order) {
         try (Connection conn = this.connectionProvider.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(
-                    "insert into customers(id,name) values(?,?)"
+                    "insert into orders(id,name) values(?,?)"
             );
-            pstmt.setLong(1, customer.id());
-            pstmt.setString(2, customer.name());
+            pstmt.setLong(1, order.id());
+            pstmt.setString(2, order.name());
             pstmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public List<Customer> getAllCustomers() {
-        List<Customer> customers = new ArrayList<>();
-
+    public void updateOrder(Order order) {
         try (Connection conn = this.connectionProvider.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(
-                    "select id, name from customers"
+                    "update orders set name = ? where id = ?"
             );
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                long id = rs.getLong("id");
-                String name = rs.getString("name");
-                customers.add(new Customer(id, name));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return customers;
-    }
-
-    public void updateCustomer(Customer customer) {
-        try (Connection conn = this.connectionProvider.getConnection()) {
-            PreparedStatement pstmt = conn.prepareStatement(
-                    "update customers set name = ? where id = ?"
-            );
-            pstmt.setString(1, customer.name());
-            pstmt.setLong(2, customer.id());
+            pstmt.setString(1, order.name());
+            pstmt.setLong(2, order.id());
             pstmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void deleteCustomer(long id) {
+    public void deleteOrder(long id) {
         try (Connection conn = this.connectionProvider.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(
-                    "delete from customers where id = ?"
+                    "delete from orders where id = ?"
             );
             pstmt.setLong(1, id);
             pstmt.execute();
@@ -77,15 +56,15 @@ public class CustomerService {
         }
     }
 
-    public Customer getCustomerById(long id) {
+    public Order getOrderById(long id) {
         try (Connection conn = this.connectionProvider.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(
-                    "select id, name from customers where id = ?"
+                    "select id, name from orders where id = ?"
             );
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Customer(rs.getLong("id"), rs.getString("name"));
+                return new Order(rs.getLong("id"), rs.getString("name"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -93,16 +72,16 @@ public class CustomerService {
         return null;
     }
 
-    private void createCustomersTableIfNotExists() {
+    private void createOrdersTableIfNotExists() {
         try (Connection conn = this.connectionProvider.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(
                     """
-                            create table if not exists customers (
-                                id bigint not null,
-                                name varchar not null,
-                                primary key (id)
-                            )
-                            """
+                    create table if not exists orders (
+                        id bigint not null,
+                        name varchar not null,
+                        primary key (id)
+                    )
+                    """
             );
             pstmt.execute();
         } catch (SQLException e) {
