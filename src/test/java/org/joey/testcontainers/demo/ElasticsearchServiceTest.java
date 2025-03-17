@@ -67,7 +67,7 @@ class ElasticsearchServiceTest {
         Request checkRequest = new Request("HEAD", "/test-index");
         Response checkResponse = client.performRequest(checkRequest);
 
-        if (checkResponse.getStatusLine().getStatusCode() == 404) { // Index bestaat niet
+        if (checkResponse.getStatusLine().getStatusCode() == 404) {
             Request request = new Request("PUT", "/test-index");
             Response response = client.performRequest(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
