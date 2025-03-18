@@ -1,4 +1,4 @@
-package org.joey.testcontainers.demo;
+package org.joey.testcontainers.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -8,13 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.joey.testcontainers.tests.config.PostgressTestContainerSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 class CustomerServiceTest {
 
-    static PostgreSQLContainer<?> postgres = TestContainerManager.getPostgresContainer();
+    static PostgreSQLContainer<?> postgres = PostgressTestContainerSetup.getPostgresContainer();
 
     CustomerService customerService;
 

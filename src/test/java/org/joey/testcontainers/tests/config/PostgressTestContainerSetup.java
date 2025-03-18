@@ -1,8 +1,8 @@
-package org.joey.testcontainers.demo;
+package org.joey.testcontainers.tests.config;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 
-public class TestContainerManager {
+public class PostgressTestContainerSetup {
 
     private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:16-alpine");
 

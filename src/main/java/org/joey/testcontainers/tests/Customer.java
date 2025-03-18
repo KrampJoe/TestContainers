@@ -1,3 +1,3 @@
-package org.joey.testcontainers.demo;
+package org.joey.testcontainers.tests;
 
 public record Customer(Long id, String name) {}

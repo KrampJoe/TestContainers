@@ -1,4 +1,4 @@
-package org.joey.testcontainers.demo;
+package org.joey.testcontainers.tests;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
